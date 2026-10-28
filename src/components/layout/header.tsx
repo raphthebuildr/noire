@@ -35,12 +35,12 @@ export function Header() {
       </div>
 
       <div className="border-b border-line bg-canvas/95 backdrop-blur-sm">
-        <div className="page-shell grid h-[72px] grid-cols-[1fr_auto_1fr] items-center">
-          <div className="flex items-center gap-7">
+        <div className="page-shell flex h-[72px] items-center justify-between gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+          <div className="flex min-w-0 items-center gap-5">
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="-ml-2 p-2 lg:hidden"
+              className="-ml-2 shrink-0 p-2 lg:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
@@ -50,34 +50,34 @@ export function Header() {
                 <MenuIcon className="h-5 w-5" />
               )}
             </button>
-            <nav
-              aria-label="Main navigation"
-              className="hidden items-center gap-7 lg:flex"
+            <Link
+              href="/"
+              aria-label="NOIRÉ home"
+              className="shrink-0 font-sans text-[19px] font-medium uppercase tracking-[0.2em] sm:text-[21px]"
             >
-              {navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "label text-[12px] transition-opacity hover:opacity-60",
-                    pathname === item.href.split("?")[0] && "underline underline-offset-8",
-                  )}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+              Noiré
+            </Link>
           </div>
 
-          <Link
-            href="/"
-            aria-label="NOIRÉ home"
-            className="font-sans text-[20px] font-medium uppercase tracking-[0.2em] sm:text-[22px]"
+          <nav
+            aria-label="Main navigation"
+            className="hidden items-center justify-center gap-7 lg:flex"
           >
-            Noiré
-          </Link>
+            {navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "label whitespace-nowrap text-[12px] transition-opacity hover:opacity-60",
+                  pathname === item.href.split("?")[0] && "underline underline-offset-8",
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-          <div className="flex items-center justify-end gap-1 sm:gap-3">
+          <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-3">
             <Link
               href="/search"
               aria-label="Search"

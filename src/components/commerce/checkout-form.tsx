@@ -31,16 +31,20 @@ const EXPRESS_SHIPPING = 18;
 export function CheckoutForm({
   defaultEmail,
   defaultAddress,
+  defaultCoupon,
 }: {
   defaultEmail?: string;
   defaultAddress?: SavedAddress | null;
+  defaultCoupon?: string;
 }) {
   const { lines, hydrated, subtotal, clearCart } = useCart();
   const router = useRouter();
   const [shippingMethod, setShippingMethod] = useState<"standard" | "express">(
     "standard",
   );
-  const [couponCode, setCouponCode] = useState("");
+  const [couponCode, setCouponCode] = useState(
+    defaultCoupon?.trim().toUpperCase() ?? "",
+  );
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -514,8 +518,9 @@ export function CheckoutForm({
             {error}
           </p>
 
-          <p className="mt-2 text-center text-[10px] text-muted">
-            Tax is $0 for this concept store.
+          <p className="mt-2 text-center text-[10px] leading-relaxed text-muted">
+            Tax is $0 for this concept store. Paystack charges the NGN
+            equivalent at the current conversion rate.
           </p>
         </aside>
       </form>

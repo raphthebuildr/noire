@@ -43,7 +43,7 @@ const reviews = [
     quote:
       "Great overshirt. I sized down once and it still works for layering.",
     name: "Tobi A.",
-    rating: 4,
+    rating: 5,
   },
 ];
 
@@ -168,10 +168,12 @@ export default function HomePage() {
                       {category.name}
                     </h3>
                   </div>
-                  <span className="label flex shrink-0 items-center gap-2 border-b border-canvas/60 pb-1 text-[10px] transition-colors group-hover:border-canvas">
-                    Explore
-                    <ArrowRightIcon className="h-3.5 w-3.5" />
-                  </span>
+                  {index < 2 ? (
+                    <span className="label flex shrink-0 items-center gap-2 border-b border-canvas/60 pb-1 text-[10px] transition-colors group-hover:border-canvas">
+                      Explore
+                      <ArrowRightIcon className="h-3.5 w-3.5" />
+                    </span>
+                  ) : null}
                 </div>
               </Link>
             );

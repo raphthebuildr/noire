@@ -28,7 +28,19 @@ export function getPaystackConfig() {
   return { publicKey, secretKey };
 }
 
-export const CURRENCY = 'NGN';
+export const CURRENCY = "USD";
+export const PAYMENT_CURRENCY = "NGN";
+
+const DEFAULT_NGN_PER_USD = 1600;
+
+export function getNgnPerUsd() {
+  const raw = process.env.NGN_PER_USD;
+  const rate = raw ? Number(raw) : DEFAULT_NGN_PER_USD;
+
+  if (!Number.isFinite(rate) || rate <= 0) return null;
+
+  return rate;
+}
 
 export function isSupabaseConfigured() {
   return getSupabaseConfig() !== null;

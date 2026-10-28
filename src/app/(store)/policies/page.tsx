@@ -1,237 +1,331 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { ArrowRightIcon, MailIcon } from "@/components/ui/icons";
 
 export const metadata: Metadata = {
   title: "Policies",
   description:
-    "NOIRÉ shipping, returns, sizing, privacy and terms information.",
+    "NOIRÉ shipping, returns, privacy, terms and cookie information.",
 };
 
 const sections = [
   { id: "shipping", label: "Shipping & delivery" },
-  { id: "returns", label: "Returns & exchanges" },
-  { id: "size-guide", label: "Size guide" },
+  { id: "returns", label: "Returns & refunds" },
   { id: "privacy", label: "Privacy" },
-  { id: "terms", label: "Terms" },
+  { id: "terms", label: "Terms of use" },
+  { id: "cookies", label: "Cookies" },
 ];
 
-const topSizes = [
-  { size: "S", chest: "36–38", length: "27", shoulder: "18.5" },
-  { size: "M", chest: "38–40", length: "28", shoulder: "19" },
-  { size: "L", chest: "40–42", length: "29", shoulder: "19.5" },
-  { size: "XL", chest: "42–44", length: "30", shoulder: "20" },
-  { size: "XXL", chest: "44–46", length: "31", shoulder: "20.5" },
+const shippingOptions = [
+  {
+    name: "Standard delivery",
+    price: "$8",
+    detail: "3–5 business days",
+    note: "Complimentary on orders over $150.",
+  },
+  {
+    name: "Express delivery",
+    price: "$18",
+    detail: "1–3 business days",
+    note: "Priority dispatch where available.",
+  },
+  {
+    name: "Dispatch window",
+    price: "1–2 days",
+    detail: "Monday–Friday",
+    note: "Orders placed after 2pm EST begin next business day.",
+  },
 ];
 
-const trouserSizes = [
-  { size: "28", waist: "28–29", hip: "36–37", inseam: "30" },
-  { size: "30", waist: "30–31", hip: "38–39", inseam: "30" },
-  { size: "32", waist: "32–33", hip: "40–41", inseam: "31" },
-  { size: "34", waist: "34–35", hip: "42–43", inseam: "31" },
-  { size: "36", waist: "36–37", hip: "44–45", inseam: "32" },
+const returnTags = [
+  "14-day window",
+  "Original tags required",
+  "Unworn and unwashed",
+  "Final sale excluded",
+];
+
+const cookieTiles = [
+  {
+    title: "Essential",
+    body: "Required for the bag, checkout, authentication and secure sessions. These cannot be switched off.",
+  },
+  {
+    title: "Analytics",
+    body: "Helps us understand which pieces and pages are useful. Aggregated and never sold.",
+  },
+  {
+    title: "Preferences",
+    body: "Remembers small choices such as recently viewed pieces and dismissed notices.",
+  },
 ];
 
 export default function PoliciesPage() {
   return (
-    <div className="page-shell py-12 lg:py-16">
-      <header className="max-w-[760px]">
-        <span className="eyebrow text-muted">Customer care</span>
-        <h1 className="mt-3 font-serif text-[46px] leading-[1.0] tracking-[-0.02em] sm:text-[62px]">
-          Policies.
-        </h1>
-        <p className="mt-4 max-w-[560px] text-sm leading-relaxed text-muted sm:text-base">
-          The practical details behind ordering from NOIRÉ. This is a concept
-          store, so policies are illustrative and not a real commercial offer.
-        </p>
-      </header>
+    <div>
+      <Breadcrumbs items={[{ label: "Policies" }]} />
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[220px_1fr] lg:gap-16">
-        <nav aria-label="Policy sections" className="h-fit lg:sticky lg:top-28">
-          <p className="label text-[11px]">On this page</p>
-          <ul className="mt-4 space-y-2.5">
-            {sections.map((section) => (
-              <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  className="text-sm text-muted transition-colors hover:text-ink"
-                >
-                  {section.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8 border-t border-line pt-5">
-            <p className="text-sm text-muted">Need something else?</p>
+      <div className="page-shell py-12 lg:py-20">
+        <header className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-[720px]">
+            <span className="eyebrow text-muted">Legal framework & terms</span>
+            <h1 className="mt-4 font-serif text-[54px] leading-[0.94] tracking-[-0.03em] sm:text-[74px]">
+              Policies.
+            </h1>
+            <p className="mt-5 max-w-[560px] text-sm leading-relaxed text-muted sm:text-base">
+              The practical details behind ordering from NOIRÉ. Written plainly,
+              kept short, and reviewed when the studio changes.
+            </p>
+          </div>
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-3 border-t border-line pt-4 text-[10px] uppercase tracking-[0.14em] lg:border-t-0 lg:pt-0">
+            <div>
+              <dt className="text-muted">Last updated</dt>
+              <dd className="mt-1">October 2026</dd>
+            </div>
+            <div>
+              <dt className="text-muted">Document ref</dt>
+              <dd className="mt-1">PL-2026.10</dd>
+            </div>
+          </dl>
+        </header>
+
+        <div className="mt-9 border border-line bg-[#e9e2d5] px-5 py-4 text-sm leading-relaxed text-ink/75">
+          <span className="label mr-3 text-[9px] text-ink">Notice</span>
+          NOIRÉ is a portfolio concept. These policies are illustrative and do
+          not form a real commercial offer.
+        </div>
+
+        <div className="mt-10 grid gap-12 lg:grid-cols-[260px_1fr] lg:gap-16">
+          <aside className="h-fit lg:sticky lg:top-28">
+            <div className="border border-line bg-paper">
+              <p className="label border-b border-line px-5 py-4 text-[10px]">
+                Contents
+              </p>
+              <ol className="divide-y divide-line">
+                {sections.map((section, index) => (
+                  <li key={section.id}>
+                    <a
+                      href={`#${section.id}`}
+                      className="group flex items-center justify-between gap-4 px-5 py-3.5 text-sm text-muted transition-colors hover:text-ink"
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className="text-[9px] tabular-nums text-muted">
+                          0{index + 1}
+                        </span>
+                        {section.label}
+                      </span>
+                      <ArrowRightIcon className="h-3.5 w-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="mt-4 bg-[#e9e2d5] p-5">
+              <MailIcon className="h-4 w-4 text-muted" />
+              <p className="mt-3 font-serif text-[22px] leading-tight">
+                Questions about our terms?
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-ink/70">
+                The concierge team can clarify anything on this page.
+              </p>
+              <Link
+                href="/contact"
+                className="label mt-4 inline-flex items-center gap-2 border-b border-ink pb-1 text-[10px]"
+              >
+                Contact us
+                <ArrowRightIcon className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+
+            <div className="mt-4 border border-line p-5 text-center">
+              <p className="font-serif text-[34px] leading-none">PL</p>
+              <p className="mt-3 text-[9px] uppercase tracking-[0.16em] text-muted">
+                Authenticity archive
+              </p>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.14em]">
+                PL-2026.10
+              </p>
+            </div>
+          </aside>
+
+          <div className="max-w-[780px] space-y-16">
+            <PolicySection id="shipping" number="01" title="Shipping & delivery">
+              <p className="text-sm leading-relaxed text-muted sm:text-base">
+                Orders are processed within 1–2 business days, Monday through
+                Friday. You will receive a confirmation email when your order is
+                placed and tracking details when it ships.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {shippingOptions.map((option) => (
+                  <div
+                    key={option.name}
+                    className="border border-line bg-paper p-5"
+                  >
+                    <p className="text-[9px] uppercase tracking-[0.14em] text-muted">
+                      {option.name}
+                    </p>
+                    <p className="mt-3 font-serif text-[30px] leading-none">
+                      {option.price}
+                    </p>
+                    <p className="mt-2 text-xs">{option.detail}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted">
+                      {option.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-5 text-sm leading-relaxed text-muted">
+                This concept store currently ships within the United States
+                only. International delivery is planned for a later release.
+              </p>
+            </PolicySection>
+
+            <PolicySection id="returns" number="02" title="Returns & refunds">
+              <p className="text-sm leading-relaxed text-muted sm:text-base">
+                Unworn, unwashed pieces with original tags may be returned
+                within 14 days of delivery. Contact us with your order number
+                and the piece you would like to return; we will send
+                instructions within 1–2 business days.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {returnTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-6 grid gap-5 sm:grid-cols-2">
+                <div>
+                  <h3 className="text-sm font-medium">Refunds</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    Approved returns are refunded to the original payment method
+                    within 5–10 business days after inspection. Original
+                    shipping is non-refundable.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium">Exchanges</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    If the size you need is available, we can arrange an
+                    exchange. Contact us before returning the piece so we can
+                    hold it for you.
+                  </p>
+                </div>
+              </div>
+            </PolicySection>
+
+            <PolicySection id="privacy" number="03" title="Privacy">
+              <div className="bg-ink p-6 text-canvas">
+                <p className="text-[9px] uppercase tracking-[0.16em] text-canvas/60">
+                  Our position
+                </p>
+                <p className="mt-3 max-w-[560px] font-serif text-[26px] leading-tight">
+                  We do not sell, rent or broker personal data.
+                </p>
+              </div>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
+                <p>
+                  We collect only what is needed to process an order, provide
+                  client care and keep the store secure: name, email, shipping
+                  address, order history and limited device information.
+                </p>
+                <p>
+                  Payment details are handled directly by Paystack. NOIRÉ does
+                  not store card numbers or security codes. You may request
+                  access, correction or deletion of your data by contacting the
+                  concierge.
+                </p>
+              </div>
+            </PolicySection>
+
+            <PolicySection id="terms" number="04" title="Terms of use">
+              <div className="border border-line bg-[#e9e2d5] p-5">
+                <p className="text-[9px] uppercase tracking-[0.16em] text-muted">
+                  Concept notice
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-ink/75">
+                  NOIRÉ is a design portfolio project. Products, prices, stock
+                  and policies are illustrative and may change without notice.
+                </p>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {["Portfolio concept", "Illustrative terms", "No commercial offer"].map(
+                  (tag) => (
+                    <span
+                      key={tag}
+                      className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
+                    >
+                      {tag}
+                    </span>
+                  ),
+                )}
+              </div>
+              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
+                <p>
+                  By using this site you agree not to misuse it, attempt to
+                  disrupt checkout, or reproduce the studio’s editorial and
+                  product imagery without permission.
+                </p>
+                <p>
+                  All content, marks and designs remain the property of NOIRÉ.
+                  Orders may be declined or cancelled where stock, pricing or
+                  payment cannot be verified.
+                </p>
+              </div>
+            </PolicySection>
+
+            <PolicySection id="cookies" number="05" title="Cookies">
+              <p className="text-sm leading-relaxed text-muted sm:text-base">
+                We use a small set of cookies to keep the bag, checkout and
+                account session working. No advertising cookies are set by
+                default.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {cookieTiles.map((tile) => (
+                  <div
+                    key={tile.title}
+                    className="border border-line bg-paper p-5"
+                  >
+                    <p className="text-[9px] uppercase tracking-[0.14em]">
+                      {tile.title}
+                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted">
+                      {tile.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </PolicySection>
+          </div>
+        </div>
+
+        <section className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-line pt-10 sm:flex-row sm:items-center lg:mt-24">
+          <div>
+            <span className="eyebrow text-muted">Need clarity?</span>
+            <h2 className="mt-2 font-serif text-[34px] leading-tight">
+              Read the FAQ or ask us directly.
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/faq"
+              className="label border border-ink px-6 py-3.5 text-[10px]"
+            >
+              Read the FAQ
+            </Link>
             <Link
               href="/contact"
-              className="mt-2 inline-block border-b border-ink pb-0.5 text-sm"
+              className="label inline-flex items-center gap-2 bg-ink px-6 py-3.5 text-[10px] text-canvas"
             >
               Contact us
+              <ArrowRightIcon className="h-3.5 w-3.5" />
             </Link>
           </div>
-        </nav>
-
-        <div className="max-w-[780px] space-y-14">
-          <PolicySection
-            id="shipping"
-            title="Shipping & delivery"
-            intro="Orders are processed within 1–2 business days, Monday through Friday. You will receive a confirmation email when your order is placed and tracking details when it ships."
-          >
-            <ul className="list-disc space-y-2 pl-5">
-              <li>Standard shipping: $8, delivered in 3–5 business days.</li>
-              <li>
-                Complimentary standard shipping on orders over $150.
-              </li>
-              <li>Express shipping: $18, delivered in 1–2 business days.</li>
-              <li>
-                We currently ship within the United States only. International
-                delivery is planned for a later release.
-              </li>
-            </ul>
-            <p>
-              Delivery estimates begin once your order has shipped. NOIRÉ is
-              not responsible for delays caused by carriers, weather or
-              incorrect addresses. Please check your address carefully at
-              checkout.
-            </p>
-          </PolicySection>
-
-          <PolicySection
-            id="returns"
-            title="Returns & exchanges"
-            intro="If a piece is not right, you may return it within 14 days of delivery. Returns must be unworn, unwashed and in original condition with tags attached."
-          >
-            <ul className="list-disc space-y-2 pl-5">
-              <li>
-                Start a return by contacting us with your order number and the
-                piece you would like to return.
-              </li>
-              <li>
-                Return shipping is the customer&apos;s responsibility unless the
-                item arrived damaged or incorrect.
-              </li>
-              <li>
-                Refunds are issued to the original payment method within 5–10
-                business days of inspection.
-              </li>
-              <li>
-                Final sale pieces and worn or altered garments are not
-                eligible for return.
-              </li>
-            </ul>
-            <p>
-              Exchanges depend on availability. If you need another size,
-              contact us before returning the piece so we can hold it for you.
-            </p>
-          </PolicySection>
-
-          <PolicySection
-            id="size-guide"
-            title="Size guide"
-            intro="Our tops are designed with a relaxed fit and our trousers with a clean, straight or wide line. If you are between sizes, size down for a closer fit."
-          >
-            <h3 className="mt-2 font-serif text-[24px]">Tops (inches)</h3>
-            <div className="mt-3 overflow-x-auto">
-              <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                <thead>
-                  <tr className="border-b border-ink text-[10px] uppercase tracking-[0.1em]">
-                    <th className="py-3 pr-4 font-medium">Size</th>
-                    <th className="py-3 pr-4 font-medium">Chest</th>
-                    <th className="py-3 pr-4 font-medium">Body length</th>
-                    <th className="py-3 font-medium">Shoulder</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {topSizes.map((row) => (
-                    <tr key={row.size} className="border-b border-line">
-                      <td className="py-3 pr-4">{row.size}</td>
-                      <td className="py-3 pr-4 text-muted">{row.chest}</td>
-                      <td className="py-3 pr-4 text-muted">{row.length}</td>
-                      <td className="py-3 text-muted">{row.shoulder}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="mt-8 font-serif text-[24px]">Trousers (inches)</h3>
-            <div className="mt-3 overflow-x-auto">
-              <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                <thead>
-                  <tr className="border-b border-ink text-[10px] uppercase tracking-[0.1em]">
-                    <th className="py-3 pr-4 font-medium">Size</th>
-                    <th className="py-3 pr-4 font-medium">Waist</th>
-                    <th className="py-3 pr-4 font-medium">Hip</th>
-                    <th className="py-3 font-medium">Inseam</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {trouserSizes.map((row) => (
-                    <tr key={row.size} className="border-b border-line">
-                      <td className="py-3 pr-4">{row.size}</td>
-                      <td className="py-3 pr-4 text-muted">{row.waist}</td>
-                      <td className="py-3 pr-4 text-muted">{row.hip}</td>
-                      <td className="py-3 text-muted">{row.inseam}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-4 text-sm text-muted">
-              Measurements are taken flat and may vary by up to 0.5 inch. Need
-              help? Contact us with your usual size and fit preference.
-            </p>
-          </PolicySection>
-
-          <PolicySection
-            id="privacy"
-            title="Privacy"
-            intro="We collect only the information needed to process orders, provide support and send updates you have asked for."
-          >
-            <ul className="list-disc space-y-2 pl-5">
-              <li>
-                Account and order information is stored securely with our
-                commerce platform.
-              </li>
-              <li>
-                Payment details are handled by Paystack. NOIRÉ never stores card
-                numbers.
-              </li>
-              <li>
-                Newsletter subscribers may unsubscribe at any time using the
-                link in any email.
-              </li>
-              <li>
-                We do not sell personal information. Data is shared only with
-                service providers needed to fulfil your order.
-              </li>
-            </ul>
-          </PolicySection>
-
-          <PolicySection
-            id="terms"
-            title="Terms"
-            intro="By using this site, you agree to these illustrative terms. NOIRÉ is a fictional concept store created for portfolio purposes."
-          >
-            <ul className="list-disc space-y-2 pl-5">
-              <li>
-                Product availability, pricing and delivery estimates may change
-                without notice.
-              </li>
-              <li>
-                Orders are subject to acceptance and stock availability.
-              </li>
-              <li>
-                All content, imagery and branding are presented for
-                demonstration only.
-              </li>
-              <li>
-                These terms are not legal advice and do not constitute a real
-                commercial agreement.
-              </li>
-            </ul>
-          </PolicySection>
-        </div>
+        </section>
       </div>
     </div>
   );
@@ -239,24 +333,28 @@ export default function PoliciesPage() {
 
 function PolicySection({
   id,
+  number,
   title,
-  intro,
   children,
 }: {
   id: string;
+  number: string;
   title: string;
-  intro: string;
   children: React.ReactNode;
 }) {
   return (
     <section id={id} className="scroll-mt-28">
-      <h2 className="font-serif text-[32px] leading-tight sm:text-[38px]">
-        {title}
-      </h2>
-      <p className="mt-4 text-sm leading-relaxed text-muted">{intro}</p>
-      <div className="mt-5 space-y-4 text-sm leading-relaxed text-muted">
-        {children}
+      <div className="flex items-end justify-between gap-6 border-b border-ink pb-4">
+        <div>
+          <span className="text-[10px] uppercase tracking-[0.14em] text-muted">
+            {number}
+          </span>
+          <h2 className="mt-2 font-serif text-[32px] leading-tight sm:text-[40px]">
+            {title}
+          </h2>
+        </div>
       </div>
+      <div className="pt-6">{children}</div>
     </section>
   );
 }

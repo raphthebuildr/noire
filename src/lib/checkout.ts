@@ -1,7 +1,13 @@
 import "server-only";
 
 import { randomBytes } from "node:crypto";
-import { getPaystackConfig, siteUrl } from "@/lib/env";
+import {
+  CURRENCY,
+  getNgnPerUsd,
+  getPaystackConfig,
+  PAYMENT_CURRENCY,
+  siteUrl,
+} from "@/lib/env";
 import { getProductBySlug, getVariant, getVariantSku } from "@/lib/catalog";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -52,6 +58,7 @@ export type ResolvedCheckout = {
   shippingCents: number;
   taxCents: number;
   totalCents: number;
+  paymentAmountSubunits: number;
   couponCode: string | null;
   shippingMethod: "standard" | "express";
 };
@@ -68,6 +75,16 @@ const DEMO_COUPONS: Record<
 export const FREE_SHIPPING_THRESHOLD_CENTS = 15000;
 export const STANDARD_SHIPPING_CENTS = 800;
 export const EXPRESS_SHIPPING_CENTS = 1800;
+
+function toPaymentSubunits(usdCents: number) {
+  const rate = getNgnPerUsd();
+
+  if (!rate) {
+    throw new CheckoutError("The NGN conversion rate is not configured.");
+  }
+
+  return Math.round((usdCents / 100) * rate * 100);
+}
 
 async function findCoupon(code: string) {
   const admin = createAdminClient();
@@ -221,6 +238,7 @@ export async function resolveCheckout(
     shippingCents,
     taxCents,
     totalCents,
+    paymentAmountSubunits: toPaymentSubunits(totalCents),
     couponCode,
     shippingMethod: input.shippingMethod,
   };
@@ -262,7 +280,9 @@ export async function createPendingOrder({
       email: input.email,
       status: "pending",
       payment_status: "pending",
-      currency: "NGN",
+      currency: CURRENCY,
+      payment_currency: PAYMENT_CURRENCY,
+      payment_amount_subunits: resolved.paymentAmountSubunits,
       subtotal_cents: resolved.subtotalCents,
       shipping_cents: resolved.shippingCents,
       discount_cents: resolved.discountCents,
@@ -329,13 +349,13 @@ export async function createPendingOrder({
 
 export async function initializePaystack({
   email,
-  amountCents,
+  amountSubunits,
   reference,
   orderId,
   orderNumber,
 }: {
   email: string;
-  amountCents: number;
+  amountSubunits: number;
   reference: string;
   orderId: string;
   orderNumber: string;
@@ -346,8 +366,8 @@ export async function initializePaystack({
     throw new CheckoutError("Payments are not configured yet.");
   }
 
-  if (amountCents < 200) {
-    throw new CheckoutError("Order total must be at least $2.00.");
+  if (amountSubunits < 200) {
+    throw new CheckoutError("Order total is below Paystack's minimum.");
   }
 
   const response = await fetch(
@@ -360,8 +380,8 @@ export async function initializePaystack({
       },
       body: JSON.stringify({
         email,
-        amount: amountCents,
-        currency: "NGN",
+        amount: amountSubunits,
+        currency: PAYMENT_CURRENCY,
         reference,
         callback_url: `${siteUrl}/checkout/callback`,
         metadata: {
@@ -431,7 +451,9 @@ export async function verifyPaystackReference(reference: string) {
 
   const { data: order } = await admin
     .from("orders")
-    .select("id, order_number, total_cents, payment_status")
+    .select(
+      "id, order_number, total_cents, payment_amount_subunits, payment_status",
+    )
     .eq("paystack_reference", reference)
     .maybeSingle();
 
@@ -487,8 +509,8 @@ export async function verifyPaystackReference(reference: string) {
   }
 
   if (
-    payload.data.amount !== order.total_cents ||
-    (payload.data.currency && payload.data.currency !== "NGN")
+    payload.data.amount !== order.payment_amount_subunits ||
+    (payload.data.currency && payload.data.currency !== PAYMENT_CURRENCY)
   ) {
     return {
       ok: false as const,

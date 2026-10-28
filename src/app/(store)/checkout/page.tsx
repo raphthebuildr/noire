@@ -13,7 +13,17 @@ export const metadata: Metadata = {
   description: "Complete your NOIRÉ order securely with Paystack.",
 };
 
-export default async function CheckoutPage() {
+type SearchParams = Promise<{ coupon?: string | string[] }>;
+
+export default async function CheckoutPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const params = await searchParams;
+  const coupon = Array.isArray(params.coupon)
+    ? params.coupon[0]
+    : params.coupon;
   const user = await getCurrentUser();
   const supabase = await createServerSupabaseClient();
   let defaultAddress: SavedAddress | null = null;
@@ -36,6 +46,7 @@ export default async function CheckoutPage() {
     <CheckoutForm
       defaultEmail={user?.email}
       defaultAddress={defaultAddress}
+      defaultCoupon={coupon}
     />
   );
 }

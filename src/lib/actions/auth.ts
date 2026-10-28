@@ -35,7 +35,8 @@ export async function loginAction(
     return { error: parsed.error.issues[0]?.message ?? "Check your details." };
   }
 
-  const supabase = await createServerSupabaseClient();
+  const remember = formData.get("remember") === "on";
+  const supabase = await createServerSupabaseClient({ remember });
 
   if (!supabase) {
     return { error: "Authentication is not configured yet." };

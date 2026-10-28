@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { AuthShell } from "@/components/auth/auth-shell";
+import { AuthAside, AuthShell } from "@/components/auth/auth-shell";
 import { RegisterForm } from "@/components/auth/register-form";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -21,9 +21,10 @@ export default async function RegisterPage() {
 
   return (
     <AuthShell
-      eyebrow="Account"
+      eyebrow="New membership"
       title="Create an account."
       intro="A quieter way to keep track of what you wear. Save addresses and view your order history."
+      aside={<AuthAside mode="register" />}
       footer={
         <p>
           Already have an account?{" "}

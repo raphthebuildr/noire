@@ -1,18 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
-import { ArrowRightIcon } from "@/components/ui/icons";
+import { useActionState, useState } from "react";
+import {
+  ArrowRightIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from "@/components/ui/icons";
 import { loginAction, type AuthState } from "@/lib/actions/auth";
 import { cn } from "@/lib/cn";
 
 const initialState: AuthState = {};
+
+const fieldClass =
+  "h-12 w-full border border-line bg-canvas px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-ink";
 
 export function LoginForm({ next }: { next?: string }) {
   const [state, formAction, pending] = useActionState(
     loginAction,
     initialState,
   );
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form action={formAction} className="space-y-4">
@@ -20,7 +28,7 @@ export function LoginForm({ next }: { next?: string }) {
 
       <div>
         <label htmlFor="login-email" className="label mb-2 block text-[10px]">
-          Email
+          Email address <span aria-hidden="true">*</span>
         </label>
         <input
           id="login-email"
@@ -28,7 +36,7 @@ export function LoginForm({ next }: { next?: string }) {
           type="email"
           required
           autoComplete="email"
-          className="h-12 w-full border border-line bg-canvas px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-ink"
+          className={fieldClass}
           placeholder="you@example.com"
         />
       </div>
@@ -36,7 +44,7 @@ export function LoginForm({ next }: { next?: string }) {
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label htmlFor="login-password" className="label text-[10px]">
-            Password
+            Password <span aria-hidden="true">*</span>
           </label>
           <Link
             href="/forgot-password"
@@ -45,16 +53,39 @@ export function LoginForm({ next }: { next?: string }) {
             Forgot password?
           </Link>
         </div>
-        <input
-          id="login-password"
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-          className="h-12 w-full border border-line bg-canvas px-4 text-sm outline-none transition-colors placeholder:text-muted focus:border-ink"
-          placeholder="Your password"
-        />
+        <div className="relative">
+          <input
+            id="login-password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            required
+            autoComplete="current-password"
+            className={`${fieldClass} pr-12`}
+            placeholder="Your password"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((visible) => !visible)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-muted transition-colors hover:text-ink"
+          >
+            {showPassword ? (
+              <EyeOffIcon className="h-4 w-4" />
+            ) : (
+              <EyeIcon className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
+
+      <label className="flex items-center gap-2.5 text-xs text-muted">
+        <input
+          type="checkbox"
+          name="remember"
+          className="h-3.5 w-3.5 accent-ink"
+        />
+        Remember this device
+      </label>
 
       <button
         type="submit"

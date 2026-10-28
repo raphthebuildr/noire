@@ -156,7 +156,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="flex items-center justify-between">
             <span className="label text-[11px]">Size</span>
             <Link
-              href="/policies#size-guide"
+              href="/faq#size-guide"
               className="inline-flex items-center gap-1.5 text-xs text-muted underline underline-offset-4 hover:text-ink"
             >
               <RulerIcon className="h-3.5 w-3.5" />

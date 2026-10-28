@@ -6,6 +6,7 @@ const schema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().toLowerCase().email(),
   subject: z.string().trim().min(2).max(160),
+  orderNumber: z.string().trim().max(80).optional(),
   message: z.string().trim().min(10).max(5000),
   company: z.string().optional(),
 });
@@ -38,7 +39,9 @@ export async function POST(request: Request) {
     name: parsed.data.name,
     email: parsed.data.email,
     subject: parsed.data.subject,
-    message: parsed.data.message,
+    message: parsed.data.orderNumber
+      ? `Order: ${parsed.data.orderNumber}\n\n${parsed.data.message}`
+      : parsed.data.message,
   });
 
   if (error) {

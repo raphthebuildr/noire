@@ -60,10 +60,12 @@ checkout always agree. The database catalog is seeded for admin/account context.
 
 ## Payments
 
-Checkout creates a pending order, initializes Paystack in NGN, and verifies the
-transaction on callback and webhook. Amounts are sent in cents.
+Checkout creates a pending order in USD, initializes Paystack in NGN, and
+verifies the transaction on callback and webhook. Storefront and order totals
+stay in USD; only the Paystack charge is converted.
 
-- Paystack NGN is the standard for Nigerian accounts.
+- Set `NGN_PER_USD` to the current conversion rate. The local fallback is `1600`.
+- Paystack amounts are sent in NGN subunits (kobo).
 - Webhook URL: `https://<your-domain>/api/paystack/webhook`
 - Local webhook testing needs a public tunnel (for example `ngrok` or a deployed
   preview). The browser callback works on localhost.

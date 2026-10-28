@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { AuthShell } from "@/components/auth/auth-shell";
+import { AuthAside, AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/auth/login-form";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -30,9 +30,10 @@ export default async function LoginPage({
 
   return (
     <AuthShell
-      eyebrow="Account"
+      eyebrow="Returning client"
       title="Welcome back."
       intro="Sign in to track orders, save addresses and return to your favourites."
+      aside={<AuthAside mode="login" />}
       footer={
         <p>
           New to NOIRÉ?{" "}

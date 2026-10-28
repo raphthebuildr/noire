@@ -18,11 +18,11 @@ NOIRÉ is a clothing e-commerce concept store. The build must match the WooComme
 - Visual direction: editorial fashion, warm stone background, restrained palette, square corners, no gradients or shadows.
 - Typography: **EB Garamond** headings, Inter body/nav/labels, `NOIRÉ` wordmark with `0.2em` tracking.
 - Backend: **Supabase** for Postgres, Auth, Storage, and RLS.
-- Payments: **Paystack** in **USD**, test mode first.
+- Payments: display prices in **USD**; convert to **NGN** for Paystack at checkout. Test mode first.
 - Admin: lightweight custom admin inside the app.
 - Imagery: extract Stitch imagery, plus a small 3-image generation pass for missing catalog shots.
 - Seed data: demo admin, demo customer, sample orders, reviews, coupon, and full catalog.
-- Deferred to v2: Journal, Lookbook, separate Collections pages, standalone Size Guide, Shipping and Returns pages, Wishlist, cart cross-sells, upsells.
+- Deferred to v2: Journal, Lookbook, separate Collections pages, standalone Size Guide, Shipping and Returns pages, Wishlist, upsells.
 
 ## 3. Design System
 
@@ -209,11 +209,12 @@ Product list from the brief:
 
 ### Shop
 
-- URL-based filters: category, collection, size, colour, price
-- Sorting: featured, newest, price ascending, price descending
+- URL-based filters: category, collection, size, colour, price, availability
+- Sorting: featured, best selling, newest, price ascending, price descending
 - Product cards with quick add
+- Mid-grid manifesto band
 - Empty state for no matches
-- Filter drawer on mobile
+- Responsive filter sidebar with counts and active filter chips
 
 ### Product Detail
 
@@ -237,7 +238,8 @@ Product list from the brief:
 - Summary with subtotal, discount, shipping, tax, total
 - Checkout CTA
 - Empty state
-- Remove the “Complete the uniform” cross-sell
+- “Complete the uniform” curated pairings
+- Styling advice and newsletter modules
 
 ## 8. Checkout and Paystack
 
@@ -250,13 +252,14 @@ Product list from the brief:
 - Express shipping: `$18`
 - Tax: `$0` with a concept-store note
 - Demo coupon: `NOIRE10` for 10% off
-- Currency: USD
+- Display currency: USD
+- Paystack currency: NGN, converted with `NGN_PER_USD`
 
 ### Flow
 
 1. Server Action validates cart, coupon, stock, shipping, and totals.
 2. Create a pending order with a unique reference.
-3. Initialize Paystack with amount in cents, USD, customer email, callback URL, and metadata.
+3. Convert the USD total to NGN subunits and initialize Paystack with the NGN amount, customer email, callback URL, and metadata.
 4. Open Paystack popup via `@paystack/inline-js`.
 5. Fall back to Paystack `authorization_url` if popup is unavailable.
 6. Verify the transaction on callback.
@@ -500,9 +503,9 @@ tests/
    - `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY`
    - `PAYSTACK_SECRET_KEY`
    - `NEXT_PUBLIC_SITE_URL`
-3. Confirm the Paystack account can accept USD.
-   - USD is supported for Nigeria and Kenya accounts.
-   - If USD is not enabled, stop and decide whether to switch the store to NGN.
+   - `NGN_PER_USD`
+3. Confirm the Paystack account can accept NGN.
+   - Set `NGN_PER_USD` to the current conversion rate; the local fallback is `1600`.
 4. Confirm the 3 generated product images are acceptable before catalog freeze.
 
 ## 16. Defaults and Assumptions
@@ -512,7 +515,7 @@ tests/
 - Contact and newsletter submissions are stored in Supabase only.
 - Auth emails use Supabase’s built-in mailer.
 - No real transactional email in v1.
-- No multi-currency.
+- USD is the only display currency; Paystack charges the NGN equivalent.
 - No tax engine.
 - No wishlist.
 - No cart cross-sells.

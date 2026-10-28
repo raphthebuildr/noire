@@ -4,7 +4,9 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { getSupabaseConfig } from "@/lib/env";
 
-export async function createServerSupabaseClient() {
+export async function createServerSupabaseClient(
+  options: { remember?: boolean } = {},
+) {
   const config = getSupabaseConfig();
   if (!config) return null;
 
@@ -17,8 +19,11 @@ export async function createServerSupabaseClient() {
       },
       setAll(cookiesToSet) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
+          cookiesToSet.forEach(({ name, value, options: cookieOptions }) => {
+            cookieStore.set(name, value, {
+              ...cookieOptions,
+              ...(options.remember ? { maxAge: 60 * 60 * 24 * 30 } : {}),
+            });
           });
         } catch {
           return;

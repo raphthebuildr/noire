@@ -30,7 +30,7 @@ const schema = z.object({
     city: z.string().trim().min(1).max(100),
     state: z.string().trim().min(1).max(100),
     postalCode: z.string().trim().min(3).max(20),
-    country: z.string().trim().length(2).default("NG"),
+    country: z.string().trim().length(2).default("US"),
     phone: z.string().trim().max(40).optional(),
   }),
   shippingMethod: z.enum(["standard", "express"]),
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     try {
       const payment = await initializePaystack({
         email: parsed.data.email,
-        amountCents: resolved.totalCents,
+        amountSubunits: resolved.paymentAmountSubunits,
         reference: order.orderNumber,
         orderId: order.id,
         orderNumber: order.orderNumber,

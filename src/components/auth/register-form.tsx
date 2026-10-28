@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
-import { ArrowRightIcon } from "@/components/ui/icons";
+import { useActionState, useState } from "react";
+import {
+  ArrowRightIcon,
+  EyeIcon,
+  EyeOffIcon,
+} from "@/components/ui/icons";
 import { registerAction, type AuthState } from "@/lib/actions/auth";
 import { cn } from "@/lib/cn";
 
@@ -16,6 +20,8 @@ export function RegisterForm() {
     registerAction,
     initialState,
   );
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   if (state.success) {
     return (
@@ -36,7 +42,7 @@ export function RegisterForm() {
     <form action={formAction} className="space-y-4">
       <div>
         <label htmlFor="register-name" className="label mb-2 block text-[10px]">
-          Full name
+          Full name <span aria-hidden="true">*</span>
         </label>
         <input
           id="register-name"
@@ -50,7 +56,7 @@ export function RegisterForm() {
 
       <div>
         <label htmlFor="register-email" className="label mb-2 block text-[10px]">
-          Email
+          Email address <span aria-hidden="true">*</span>
         </label>
         <input
           id="register-email"
@@ -68,18 +74,35 @@ export function RegisterForm() {
           htmlFor="register-password"
           className="label mb-2 block text-[10px]"
         >
-          Password
+          Password <span aria-hidden="true">*</span>
         </label>
-        <input
-          id="register-password"
-          name="password"
-          type="password"
-          required
-          minLength={8}
-          autoComplete="new-password"
-          className={fieldClass}
-          placeholder="At least 8 characters"
-        />
+        <div className="relative">
+          <input
+            id="register-password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            required
+            minLength={8}
+            autoComplete="new-password"
+            className={`${fieldClass} pr-12`}
+            placeholder="At least 8 characters"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((visible) => !visible)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+            className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-muted transition-colors hover:text-ink"
+          >
+            {showPassword ? (
+              <EyeOffIcon className="h-4 w-4" />
+            ) : (
+              <EyeIcon className="h-4 w-4" />
+            )}
+          </button>
+        </div>
+        <p className="mt-2 text-[11px] leading-relaxed text-muted">
+          Use at least 8 characters, including a number.
+        </p>
       </div>
 
       <div>
@@ -87,18 +110,32 @@ export function RegisterForm() {
           htmlFor="register-confirm"
           className="label mb-2 block text-[10px]"
         >
-          Confirm password
+          Confirm password <span aria-hidden="true">*</span>
         </label>
-        <input
-          id="register-confirm"
-          name="confirmPassword"
-          type="password"
-          required
-          minLength={8}
-          autoComplete="new-password"
-          className={fieldClass}
-          placeholder="Repeat your password"
-        />
+        <div className="relative">
+          <input
+            id="register-confirm"
+            name="confirmPassword"
+            type={showConfirm ? "text" : "password"}
+            required
+            minLength={8}
+            autoComplete="new-password"
+            className={`${fieldClass} pr-12`}
+            placeholder="Repeat your password"
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirm((visible) => !visible)}
+            aria-label={showConfirm ? "Hide password" : "Show password"}
+            className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center text-muted transition-colors hover:text-ink"
+          >
+            {showConfirm ? (
+              <EyeOffIcon className="h-4 w-4" />
+            ) : (
+              <EyeIcon className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
 
       <button

@@ -198,7 +198,7 @@ export default async function AdminCouponsPage() {
                 htmlFor="coupon-minimum"
                 className="label mb-2 block text-[10px]"
               >
-                Minimum subtotal (NGN)
+                Minimum subtotal (USD)
               </label>
               <input
                 id="coupon-minimum"

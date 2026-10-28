@@ -22,6 +22,7 @@ export function ContactForm() {
     const payload = {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
+      orderNumber: String(formData.get("orderNumber") ?? ""),
       subject: String(formData.get("subject") ?? ""),
       message: String(formData.get("message") ?? ""),
       company: String(formData.get("company") ?? ""),
@@ -58,10 +59,19 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {status === "success" ? (
+        <div
+          role="status"
+          className="border border-[#4f6b4a]/30 bg-[#eef0e8] px-4 py-3 text-sm leading-relaxed text-[#35452f]"
+        >
+          {message}
+        </div>
+      ) : null}
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="contact-name" className="label mb-2 block text-[10px]">
-            Name
+            Full name <span aria-hidden="true">*</span>
           </label>
           <input
             id="contact-name"
@@ -74,7 +84,7 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="contact-email" className="label mb-2 block text-[10px]">
-            Email
+            Email address <span aria-hidden="true">*</span>
           </label>
           <input
             id="contact-email"
@@ -89,28 +99,44 @@ export function ContactForm() {
       </div>
 
       <div>
+        <label
+          htmlFor="contact-order-number"
+          className="label mb-2 block text-[10px]"
+        >
+          Order number
+        </label>
+        <input
+          id="contact-order-number"
+          name="orderNumber"
+          className={fieldClass}
+          placeholder="NOIRE-000000-0000"
+        />
+      </div>
+
+      <div>
         <label htmlFor="contact-subject" className="label mb-2 block text-[10px]">
-          Subject
+          Subject <span aria-hidden="true">*</span>
         </label>
         <select
           id="contact-subject"
           name="subject"
           className={fieldClass}
-          defaultValue="Order enquiry"
+          defaultValue="Order inquiry"
+          required
         >
-          <option>Order enquiry</option>
+          <option>Order inquiry</option>
           <option>Shipping & delivery</option>
           <option>Returns & exchanges</option>
           <option>Sizing advice</option>
-          <option>Product question</option>
+          <option>Product details</option>
           <option>Press & partnerships</option>
-          <option>Something else</option>
+          <option>Other assistance</option>
         </select>
       </div>
 
       <div>
         <label htmlFor="contact-message" className="label mb-2 block text-[10px]">
-          Message
+          Message <span aria-hidden="true">*</span>
         </label>
         <textarea
           id="contact-message"
@@ -149,7 +175,7 @@ export function ContactForm() {
           status === "error" ? "text-oxblood" : "text-muted",
         )}
       >
-        {message}
+        {status === "success" ? "" : message}
       </p>
     </form>
   );
