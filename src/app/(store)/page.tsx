@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/product-card";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
@@ -47,18 +47,44 @@ const reviews = [
   },
 ];
 
+const heroCommon = {
+  alt: "Two models in NOIRÉ essentials against a warm plaster studio",
+  loading: "eager" as const,
+  fetchPriority: "high" as const,
+};
+
+const heroDesktop = getImageProps({
+  ...heroCommon,
+  src: "/images/editorial/home-b-01-editorial-fashion-photography-of-a-poised-male-and-female-mo.jpg",
+  width: 2752,
+  height: 1536,
+  sizes: "(max-aspect-ratio: 2752/1536) 170vh, 100vw",
+});
+
+const heroMobile = getImageProps({
+  ...heroCommon,
+  src: "/images/editorial/home-b-01-portrait-two-models-in-noire-essentials.jpg",
+  width: 1792,
+  height: 2400,
+  sizes: "(max-aspect-ratio: 1792/2400) 70vh, 100vw",
+});
+
 export default function HomePage() {
   return (
     <>
       <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-surface pb-16 pt-32 sm:pb-20 lg:pb-24">
-        <Image
-          src="/images/editorial/home-b-01-editorial-fashion-photography-of-a-poised-male-and-female-mo.jpg"
-          alt="Two models in NOIRÉ essentials against a warm plaster studio"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center saturate-[0.9] contrast-[1.03]"
-        />
+        <picture>
+          <source
+            media="(min-width: 640px)"
+            srcSet={heroDesktop.props.srcSet}
+            sizes={heroDesktop.props.sizes}
+          />
+          <img
+            {...heroMobile.props}
+            alt={heroCommon.alt}
+            className="absolute inset-0 h-full w-full object-cover object-center saturate-[0.9] contrast-[1.03]"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
         <div className="page-shell relative z-10">
           <div className="max-w-3xl text-canvas">
