@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SizeGuideDialog } from "@/components/faq/size-guide-dialog";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
+import { FaqAccordion } from "@/components/faq/faq-accordion";
 import {
   ArrowRightIcon,
-  ChevronDownIcon,
   PackageIcon,
   ReturnIcon,
   RulerIcon,
@@ -272,7 +272,7 @@ export default async function FaqPage({
             </div>
           </aside>
 
-          <div className="space-y-14">
+          <div>
             {filteredGroups.length === 0 ? (
               <div className="border border-line bg-paper p-8">
                 <SearchIcon className="h-5 w-5 text-muted" />
@@ -298,85 +298,9 @@ export default async function FaqPage({
                   </Link>
                 </div>
               </div>
-            ) : null}
-
-            {filteredGroups.map((group, groupIndex) => (
-              <section
-                key={group.title}
-                id={slugify(group.title)}
-                className="scroll-mt-28"
-              >
-                <div className="flex items-end justify-between gap-6">
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-muted">
-                      0{groupIndex + 1}
-                    </span>
-                    <h2 className="mt-2 font-serif text-[32px] leading-tight sm:text-[40px]">
-                      {group.title}
-                    </h2>
-                  </div>
-                  <span className="shrink-0 text-[10px] uppercase tracking-[0.14em] text-muted">
-                    {String(group.items.length).padStart(2, "0")} questions
-                  </span>
-                </div>
-
-                <div className="mt-5 border-t border-line">
-                  {group.items.map((item) => (
-                    <details
-                      key={item.question}
-                      className="group border-b border-line py-5"
-                    >
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-sm font-medium [&::-webkit-details-marker]:hidden sm:text-base">
-                        {item.question}
-                        <ChevronDownIcon className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" />
-                      </summary>
-                      <p className="mt-3 max-w-[720px] text-sm leading-relaxed text-muted">
-                        {item.answer}
-                      </p>
-                    </details>
-                  ))}
-                </div>
-
-                {group.title === "Sizing & fit" ? (
-                  <div
-                    id="size-guide"
-                    className="mt-8 scroll-mt-28 border border-line bg-paper p-6 sm:p-8"
-                  >
-                    <span className="eyebrow text-muted">Measurement desk</span>
-                    <h3 className="mt-2 font-serif text-[28px] leading-tight">
-                      Find your size.
-                    </h3>
-                    <p className="mt-3 max-w-[520px] text-sm leading-relaxed text-muted">
-                      Compare chest, waist, hip and inseam measurements. If you
-                      are between sizes, size down for a closer fit.
-                    </p>
-                    <SizeGuideDialog />
-                  </div>
-                ) : null}
-
-                {group.title === "Products & care" ? (
-                  <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                    {careNotes.map((note) => {
-                      const Icon = note.icon;
-                      return (
-                        <div
-                          key={note.title}
-                          className="border border-line bg-paper p-5"
-                        >
-                          <Icon className="h-4 w-4 text-muted" />
-                          <p className="mt-3 text-[10px] uppercase tracking-[0.14em]">
-                            {note.title}
-                          </p>
-                          <p className="mt-1 text-xs leading-relaxed text-muted">
-                            {note.body}
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : null}
-              </section>
-            ))}
+            ) : (
+              <FaqAccordion groups={filteredGroups} />
+            )}
           </div>
         </div>
 

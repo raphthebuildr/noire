@@ -15,6 +15,7 @@ import {
   isProductInStock,
   products,
 } from "@/lib/catalog";
+import { FilterGroup } from "@/components/shop/collapsible-filter-group";
 import { cn } from "@/lib/cn";
 
 export const instant = false;
@@ -520,20 +521,7 @@ export default async function ShopPage({
   );
 }
 
-function FilterGroup({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="border-b border-line py-5">
-      <p className="label text-[9px] text-muted">{title}</p>
-      <div className="mt-3 space-y-2">{children}</div>
-    </div>
-  );
-}
+
 
 function FilterRow({
   href,

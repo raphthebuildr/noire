@@ -17,7 +17,6 @@ const navigation = [
   { label: "Shop", href: "/shop" },
   { label: "New Arrivals", href: "/shop?collection=new-arrivals" },
   { label: "About", href: "/about" },
-  { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
 

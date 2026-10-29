@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/product-card";
-import { SearchIcon } from "@/components/ui/icons";
+import { SearchIcon, CloseIcon } from "@/components/ui/icons";
 import { searchProducts } from "@/lib/catalog";
 
 export const instant = false;
@@ -48,6 +48,16 @@ export default async function SearchPage({
             placeholder="Search by piece, fabric or colour"
             className="min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-muted"
           />
+          {query ? (
+            <Link
+              href="/search"
+              aria-label="Clear search"
+              className="mr-3 flex items-center gap-1 text-[10px] uppercase tracking-[0.1em] text-muted hover:text-ink transition-colors"
+            >
+              <CloseIcon className="h-3.5 w-3.5" />
+              Clear
+            </Link>
+          ) : null}
           <button
             type="submit"
             className="label shrink-0 text-[10px] transition-opacity hover:opacity-60"
@@ -78,10 +88,19 @@ export default async function SearchPage({
         </div>
       ) : (
         <div className="mt-12">
-          <p className="text-sm text-muted">
-            {results.length} {results.length === 1 ? "result" : "results"} for
-            “{query}”
-          </p>
+          <div className="flex items-center justify-between border-b border-line pb-4">
+            <p className="text-sm text-muted">
+              {results.length} {results.length === 1 ? "result" : "results"} for
+              “{query}”
+            </p>
+            <Link
+              href="/search"
+              className="label inline-flex items-center gap-2 border border-line px-3 py-1.5 text-[9px] uppercase tracking-[0.12em] text-muted hover:border-ink hover:text-ink transition-colors"
+            >
+              <CloseIcon className="h-3 w-3" />
+              Clear search
+            </Link>
+          </div>
 
           {results.length > 0 ? (
             <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">

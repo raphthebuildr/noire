@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { ArrowRightIcon, MailIcon } from "@/components/ui/icons";
+import { PoliciesAccordion } from "@/components/policies/policies-accordion";
 
 export const metadata: Metadata = {
   title: "Policies",
@@ -57,6 +58,190 @@ const cookieTiles = [
   {
     title: "Preferences",
     body: "Remembers small choices such as recently viewed pieces and dismissed notices.",
+  },
+];
+
+const policyData = [
+  {
+    id: "shipping",
+    number: "01",
+    title: "Shipping & delivery",
+    content: (
+      <>
+        <p className="text-sm leading-relaxed text-muted sm:text-base">
+          Orders are processed within 1–2 business days, Monday through
+          Friday. You will receive a confirmation email when your order is
+          placed and tracking details when it ships.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {shippingOptions.map((option) => (
+            <div
+              key={option.name}
+              className="border border-line bg-paper p-5"
+            >
+              <p className="text-[9px] uppercase tracking-[0.14em] text-muted">
+                {option.name}
+              </p>
+              <p className="mt-3 font-serif text-[30px] leading-none">
+                {option.price}
+              </p>
+              <p className="mt-2 text-xs">{option.detail}</p>
+              <p className="mt-2 text-xs leading-relaxed text-muted">
+                {option.note}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-5 text-sm leading-relaxed text-muted">
+          This concept store currently ships within the United States
+          only. International delivery is planned for a later release.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "returns",
+    number: "02",
+    title: "Returns & refunds",
+    content: (
+      <>
+        <p className="text-sm leading-relaxed text-muted sm:text-base">
+          Unworn, unwashed pieces with original tags may be returned
+          within 14 days of delivery. Contact us with your order number
+          and the piece you would like to return; we will send
+          instructions within 1–2 business days.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {returnTags.map((tag) => (
+            <span
+              key={tag}
+              className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+          <div>
+            <h3 className="text-sm font-medium">Refunds</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Approved returns are refunded to the original payment method
+              within 5–10 business days after inspection. Original
+              shipping is non-refundable.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-sm font-medium">Exchanges</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              If the size you need is available, we can arrange an
+              exchange. Contact us before returning the piece so we can
+              hold it for you.
+            </p>
+          </div>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: "privacy",
+    number: "03",
+    title: "Privacy",
+    content: (
+      <>
+        <div className="bg-ink p-6 text-canvas">
+          <p className="text-[9px] uppercase tracking-[0.16em] text-canvas/60">
+            Our position
+          </p>
+          <p className="mt-3 max-w-[560px] font-serif text-[26px] leading-tight">
+            We do not sell, rent or broker personal data.
+          </p>
+        </div>
+        <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
+          <p>
+            We collect only what is needed to process an order, provide
+            client care and keep the store secure: name, email, shipping
+            address, order history and limited device information.
+          </p>
+          <p>
+            Payment details are handled directly by Paystack. NOIRÉ does
+            not store card numbers or security codes. You may request
+            access, correction or deletion of your data by contacting the
+            concierge.
+          </p>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: "terms",
+    number: "04",
+    title: "Terms of use",
+    content: (
+      <>
+        <div className="border border-line bg-[#e9e2d5] p-5">
+          <p className="text-[9px] uppercase tracking-[0.16em] text-muted">
+            Concept notice
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-ink/75">
+            NOIRÉ is a design portfolio project. Products, prices, stock
+            and policies are illustrative and may change without notice.
+          </p>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {["Portfolio concept", "Illustrative terms", "No commercial offer"].map(
+            (tag) => (
+              <span
+                key={tag}
+                className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
+              >
+                {tag}
+              </span>
+            ),
+          )}
+        </div>
+        <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
+          <p>
+            By using this site you agree not to misuse it, attempt to
+            disrupt checkout, or reproduce the studio’s editorial and
+            product imagery without permission.
+          </p>
+          <p>
+            All content, marks and designs remain the property of NOIRÉ.
+            Orders may be declined or cancelled where stock, pricing or
+            payment cannot be verified.
+          </p>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: "cookies",
+    number: "05",
+    title: "Cookies",
+    content: (
+      <>
+        <p className="text-sm leading-relaxed text-muted sm:text-base">
+          We use a small set of cookies to keep the bag, checkout and
+          account session working. No advertising cookies are set by
+          default.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {cookieTiles.map((tile) => (
+            <div
+              key={tile.title}
+              className="border border-line bg-paper p-5"
+            >
+              <p className="text-[9px] uppercase tracking-[0.14em]">
+                {tile.title}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-muted">
+                {tile.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </>
+    ),
   },
 ];
 
@@ -149,158 +334,7 @@ export default function PoliciesPage() {
             </div>
           </aside>
 
-          <div className="max-w-[780px] space-y-16">
-            <PolicySection id="shipping" number="01" title="Shipping & delivery">
-              <p className="text-sm leading-relaxed text-muted sm:text-base">
-                Orders are processed within 1–2 business days, Monday through
-                Friday. You will receive a confirmation email when your order is
-                placed and tracking details when it ships.
-              </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                {shippingOptions.map((option) => (
-                  <div
-                    key={option.name}
-                    className="border border-line bg-paper p-5"
-                  >
-                    <p className="text-[9px] uppercase tracking-[0.14em] text-muted">
-                      {option.name}
-                    </p>
-                    <p className="mt-3 font-serif text-[30px] leading-none">
-                      {option.price}
-                    </p>
-                    <p className="mt-2 text-xs">{option.detail}</p>
-                    <p className="mt-2 text-xs leading-relaxed text-muted">
-                      {option.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-5 text-sm leading-relaxed text-muted">
-                This concept store currently ships within the United States
-                only. International delivery is planned for a later release.
-              </p>
-            </PolicySection>
-
-            <PolicySection id="returns" number="02" title="Returns & refunds">
-              <p className="text-sm leading-relaxed text-muted sm:text-base">
-                Unworn, unwashed pieces with original tags may be returned
-                within 14 days of delivery. Contact us with your order number
-                and the piece you would like to return; we will send
-                instructions within 1–2 business days.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {returnTags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-6 grid gap-5 sm:grid-cols-2">
-                <div>
-                  <h3 className="text-sm font-medium">Refunds</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    Approved returns are refunded to the original payment method
-                    within 5–10 business days after inspection. Original
-                    shipping is non-refundable.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium">Exchanges</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    If the size you need is available, we can arrange an
-                    exchange. Contact us before returning the piece so we can
-                    hold it for you.
-                  </p>
-                </div>
-              </div>
-            </PolicySection>
-
-            <PolicySection id="privacy" number="03" title="Privacy">
-              <div className="bg-ink p-6 text-canvas">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-canvas/60">
-                  Our position
-                </p>
-                <p className="mt-3 max-w-[560px] font-serif text-[26px] leading-tight">
-                  We do not sell, rent or broker personal data.
-                </p>
-              </div>
-              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
-                <p>
-                  We collect only what is needed to process an order, provide
-                  client care and keep the store secure: name, email, shipping
-                  address, order history and limited device information.
-                </p>
-                <p>
-                  Payment details are handled directly by Paystack. NOIRÉ does
-                  not store card numbers or security codes. You may request
-                  access, correction or deletion of your data by contacting the
-                  concierge.
-                </p>
-              </div>
-            </PolicySection>
-
-            <PolicySection id="terms" number="04" title="Terms of use">
-              <div className="border border-line bg-[#e9e2d5] p-5">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-muted">
-                  Concept notice
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-ink/75">
-                  NOIRÉ is a design portfolio project. Products, prices, stock
-                  and policies are illustrative and may change without notice.
-                </p>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {["Portfolio concept", "Illustrative terms", "No commercial offer"].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="border border-line px-3 py-2 text-[9px] uppercase tracking-[0.14em] text-muted"
-                    >
-                      {tag}
-                    </span>
-                  ),
-                )}
-              </div>
-              <div className="mt-6 space-y-4 text-sm leading-relaxed text-muted sm:text-base">
-                <p>
-                  By using this site you agree not to misuse it, attempt to
-                  disrupt checkout, or reproduce the studio’s editorial and
-                  product imagery without permission.
-                </p>
-                <p>
-                  All content, marks and designs remain the property of NOIRÉ.
-                  Orders may be declined or cancelled where stock, pricing or
-                  payment cannot be verified.
-                </p>
-              </div>
-            </PolicySection>
-
-            <PolicySection id="cookies" number="05" title="Cookies">
-              <p className="text-sm leading-relaxed text-muted sm:text-base">
-                We use a small set of cookies to keep the bag, checkout and
-                account session working. No advertising cookies are set by
-                default.
-              </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                {cookieTiles.map((tile) => (
-                  <div
-                    key={tile.title}
-                    className="border border-line bg-paper p-5"
-                  >
-                    <p className="text-[9px] uppercase tracking-[0.14em]">
-                      {tile.title}
-                    </p>
-                    <p className="mt-2 text-xs leading-relaxed text-muted">
-                      {tile.body}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </PolicySection>
-          </div>
+          <PoliciesAccordion sections={policyData} />
         </div>
 
         <section className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-line pt-10 sm:flex-row sm:items-center lg:mt-24">
@@ -328,33 +362,5 @@ export default function PoliciesPage() {
         </section>
       </div>
     </div>
-  );
-}
-
-function PolicySection({
-  id,
-  number,
-  title,
-  children,
-}: {
-  id: string;
-  number: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-28">
-      <div className="flex items-end justify-between gap-6 border-b border-ink pb-4">
-        <div>
-          <span className="text-[10px] uppercase tracking-[0.14em] text-muted">
-            {number}
-          </span>
-          <h2 className="mt-2 font-serif text-[32px] leading-tight sm:text-[40px]">
-            {title}
-          </h2>
-        </div>
-      </div>
-      <div className="pt-6">{children}</div>
-    </section>
   );
 }
