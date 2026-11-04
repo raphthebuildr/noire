@@ -11,6 +11,7 @@ const shopLinks = [
   { label: "Accessories", href: "/shop?category=accessories" },
 ];
 
+
 const helpLinks = [
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
@@ -53,7 +54,7 @@ export function Footer() {
             </div>
           </div>
 
-          <FooterColumn title="Shop" links={shopLinks} />
+          <FooterColumn title="Shop" links={shopLinks} /> 
           <FooterColumn title="Help" links={helpLinks} />
           <FooterColumn title="Company" links={companyLinks} />
           <div>

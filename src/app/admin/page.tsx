@@ -4,6 +4,8 @@ import { formatDate, formatPrice } from "@/lib/format";
 import { products } from "@/lib/catalog";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+export const instant = false;
+
 type RecentOrder = {
   id: string;
   order_number: string;
