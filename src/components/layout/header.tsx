@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useCart } from "@/components/commerce/cart-provider";
 import {
   BagIcon,
@@ -39,7 +40,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="-ml-2 shrink-0 p-2 lg:hidden"
+              className="press -ml-2 shrink-0 p-2 lg:hidden"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
@@ -95,7 +96,7 @@ export function Header() {
               type="button"
               onClick={openCart}
               aria-label={`Shopping bag${hydrated && count > 0 ? `, ${count} items` : ""}`}
-              className="relative p-2 transition-opacity hover:opacity-60"
+              className="press relative p-2 hover:opacity-60"
             >
               <BagIcon className="h-[19px] w-[19px]" />
               {hydrated && count > 0 ? (
@@ -108,45 +109,56 @@ export function Header() {
         </div>
       </div>
 
-      {menuOpen ? (
-        <div className="absolute inset-x-0 top-full border-b border-line bg-canvas px-4 pb-8 pt-4 shadow-[0_12px_30px_rgba(28,28,28,0.05)] lg:hidden">
-          <nav
-            aria-label="Mobile navigation"
-            className="flex flex-col"
-            onClick={() => setMenuOpen(false)}
+      <AnimatePresence initial={false}>
+        {menuOpen ? (
+          <motion.div
+            key="mobile-menu"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-x-0 top-full overflow-hidden border-b border-line bg-canvas shadow-[0_12px_30px_rgba(28,28,28,0.05)] lg:hidden"
           >
-            {navigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="border-b border-line py-4 font-serif text-[28px] leading-none"
+            <div className="px-4 pb-8 pt-4">
+              <nav
+                aria-label="Mobile navigation"
+                className="flex flex-col"
+                onClick={() => setMenuOpen(false)}
               >
-                {item.label}
-              </Link>
-            ))}
-            <Link
-              href="/account"
-              className="border-b border-line py-4 font-serif text-[28px] leading-none"
-            >
-              My Account
-            </Link>
-          </nav>
-          <div
-            className="mt-6 flex items-center gap-5 text-xs text-muted"
-            onClick={() => setMenuOpen(false)}
-          >
-            <Link href="/contact" className="hover:text-ink">
-              Contact
-            </Link>
-            <Link href="/policies" className="hover:text-ink">
-              Policies
-            </Link>
-            <Link href="/search" className="hover:text-ink">
-              Search
-            </Link>
-          </div>
-        </div>
-      ) : null}
+                {navigation.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="border-b border-line py-4 font-serif text-[28px] leading-none"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/account"
+                  className="border-b border-line py-4 font-serif text-[28px] leading-none"
+                >
+                  My Account
+                </Link>
+              </nav>
+              <div
+                className="mt-6 flex items-center gap-5 text-xs text-muted"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Link href="/contact" className="hover:text-ink">
+                  Contact
+                </Link>
+                <Link href="/policies" className="hover:text-ink">
+                  Policies
+                </Link>
+                <Link href="/search" className="hover:text-ink">
+                  Search
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

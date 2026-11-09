@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useCart } from "@/components/commerce/cart-provider";
 import {
   ArrowRightIcon,
@@ -30,25 +31,33 @@ export function CartDrawer() {
     if (isOpen) closeButtonRef.current?.focus();
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100);
 
   return (
-    <div className="fixed inset-0 z-50">
-      <button
-        type="button"
-        aria-label="Close cart"
-        onClick={closeCart}
-        className="absolute inset-0 h-full w-full cursor-default bg-ink/40"
-      />
-      <aside
-        role="dialog"
-        aria-modal="true"
-        aria-label="Shopping bag"
-        className="absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-paper shadow-[-12px_0_40px_rgba(28,28,28,0.08)]"
-      >
+    <AnimatePresence initial={false}>
+      {isOpen ? (
+        <div key="cart-drawer" className="fixed inset-0 z-50">
+        <motion.button
+          type="button"
+          aria-label="Close cart"
+          onClick={closeCart}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="absolute inset-0 h-full w-full cursor-default bg-ink/40"
+        />
+        <motion.aside
+          role="dialog"
+          aria-modal="true"
+          aria-label="Shopping bag"
+          initial={{ x: "100%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: "100%", opacity: 0 }}
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-paper shadow-[-12px_0_40px_rgba(28,28,28,0.08)]"
+        >
         <div className="flex items-center justify-between border-b border-line px-6 py-5">
           <div className="flex items-baseline gap-3">
             <h2 className="font-serif text-[26px] leading-none">Your bag</h2>
@@ -109,81 +118,96 @@ export function CartDrawer() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6">
+            <div className="flex-1 overflow-y-auto overscroll-contain px-6">
               <ul className="divide-y divide-line">
-                {lines.map((line) => (
-                  <li key={line.variantId} className="flex gap-4 py-5">
-                    <Link
-                      href={`/products/${line.productSlug}`}
-                      onClick={closeCart}
-                      className="relative block h-[132px] w-[104px] shrink-0 overflow-hidden bg-surface"
+                <AnimatePresence initial={false}>
+                  {lines.map((line) => (
+                    <motion.li
+                      key={line.variantId}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="overflow-hidden"
                     >
-                      <Image
-                        src={line.image}
-                        alt={line.productName}
-                        fill
-                        sizes="104px"
-                        className="image-cover"
-                      />
-                    </Link>
-                    <div className="flex min-w-0 flex-1 flex-col">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <Link
-                            href={`/products/${line.productSlug}`}
-                            onClick={closeCart}
-                            className="font-serif text-[19px] leading-snug hover:underline"
-                          >
-                            {line.productName}
-                          </Link>
-                          <p className="mt-1 text-xs text-muted">
-                            {line.color} / {line.size}
-                          </p>
-                        </div>
-                        <p className="shrink-0 text-sm">
-                          {formatPrice(line.price * line.quantity)}
-                        </p>
-                      </div>
-
-                      <div className="mt-auto flex items-center justify-between pt-4">
-                        <div className="flex items-center border border-line">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updateQuantity(line.variantId, line.quantity - 1)
-                            }
-                            className="flex h-8 w-8 items-center justify-center transition-colors hover:bg-surface"
-                            aria-label={`Decrease quantity of ${line.productName}`}
-                          >
-                            <MinusIcon className="h-3.5 w-3.5" />
-                          </button>
-                          <span className="w-8 text-center text-xs">
-                            {line.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updateQuantity(line.variantId, line.quantity + 1)
-                            }
-                            disabled={line.quantity >= line.maxQuantity}
-                            className="flex h-8 w-8 items-center justify-center transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-30"
-                            aria-label={`Increase quantity of ${line.productName}`}
-                          >
-                            <PlusIcon className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => removeItem(line.variantId)}
-                          className="p-2 text-muted transition-colors hover:text-ink"
-                          aria-label={`Remove ${line.productName} from bag`}
+                      <div className="flex gap-4 py-5">
+                        <Link
+                          href={`/products/${line.productSlug}`}
+                          onClick={closeCart}
+                          className="relative block h-[132px] w-[104px] shrink-0 overflow-hidden bg-surface"
                         >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
+                          <Image
+                            src={line.image}
+                            alt={line.productName}
+                            fill
+                            sizes="104px"
+                            className="image-cover"
+                          />
+                        </Link>
+                        <div className="flex min-w-0 flex-1 flex-col">
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <Link
+                                href={`/products/${line.productSlug}`}
+                                onClick={closeCart}
+                                className="font-serif text-[19px] leading-snug hover:underline"
+                              >
+                                {line.productName}
+                              </Link>
+                              <p className="mt-1 text-xs text-muted">
+                                {line.color} / {line.size}
+                              </p>
+                            </div>
+                            <p className="shrink-0 text-sm">
+                              {formatPrice(line.price * line.quantity)}
+                            </p>
+                          </div>
+
+                          <div className="mt-auto flex items-center justify-between pt-4">
+                            <div className="flex items-center border border-line">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateQuantity(
+                                    line.variantId,
+                                    line.quantity - 1,
+                                  )
+                                }
+                                className="press flex h-8 w-8 items-center justify-center hover:bg-surface"
+                                aria-label={`Decrease quantity of ${line.productName}`}
+                              >
+                                <MinusIcon className="h-3.5 w-3.5" />
+                              </button>
+                              <span className="w-8 text-center text-xs">
+                                {line.quantity}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  updateQuantity(
+                                    line.variantId,
+                                    line.quantity + 1,
+                                  )
+                                }
+                                disabled={line.quantity >= line.maxQuantity}
+                                className="press flex h-8 w-8 items-center justify-center hover:bg-surface disabled:cursor-not-allowed disabled:opacity-30"
+                                aria-label={`Increase quantity of ${line.productName}`}
+                              >
+                                <PlusIcon className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeItem(line.variantId)}
+                              className="press p-2 text-muted hover:text-ink"
+                              aria-label={`Remove ${line.productName} from bag`}
+                            >
+                              <TrashIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
+                    </motion.li>
+                  ))}
+                </AnimatePresence>
               </ul>
             </div>
 
@@ -213,7 +237,9 @@ export function CartDrawer() {
             </div>
           </>
         )}
-      </aside>
-    </div>
+        </motion.aside>
+        </div>
+      ) : null}
+    </AnimatePresence>
   );
 }

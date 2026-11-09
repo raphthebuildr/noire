@@ -104,12 +104,12 @@ export default function HomePage() {
             <div className='mt-8 flex flex-wrap items-center gap-3'>
               <Link
                 href='/shop?collection=new-arrivals'
-                className='label inline-flex h-12 items-center justify-center bg-ink px-8 text-[11px] text-canvas ring-1 ring-canvas/35 transition-colors hover:bg-canvas hover:text-ink'>
+                className='press label inline-flex h-12 items-center justify-center bg-ink px-8 text-[11px] text-canvas ring-1 ring-canvas/35 hover:bg-canvas hover:text-ink'>
                 Shop new arrivals
               </Link>
               <Link
                 href='/shop'
-                className='label inline-flex h-12 items-center justify-center border border-canvas/60 px-8 text-[11px] text-canvas transition-colors hover:bg-canvas hover:text-ink'>
+                className='press label inline-flex h-12 items-center justify-center border border-canvas/60 px-8 text-[11px] text-canvas hover:bg-canvas hover:text-ink'>
                 Explore collection
               </Link>
             </div>

@@ -137,7 +137,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 aria-label={item.name}
                 aria-pressed={color === item.name}
                 className={cn(
-                  "h-8 w-8 rounded-full border-2 p-0.5 transition-colors",
+                  "press h-8 w-8 rounded-full border-2 p-0.5",
                   color === item.name
                     ? "border-ink"
                     : "border-transparent hover:border-line",
@@ -174,7 +174,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   onClick={() => setSize(item.size)}
                   aria-pressed={size === item.size}
                   className={cn(
-                    "relative flex h-11 items-center justify-center border text-xs uppercase tracking-[0.06em] transition-colors",
+                    "press relative flex h-11 items-center justify-center border text-xs uppercase tracking-[0.06em]",
                     size === item.size
                       ? "border-ink bg-ink text-canvas"
                       : "border-line text-ink hover:border-ink",
@@ -202,7 +202,7 @@ export function ProductDetail({ product }: { product: Product }) {
               type="button"
               onClick={() => setQuantity((value) => Math.max(1, value - 1))}
               disabled={displayQuantity <= 1}
-              className="flex h-12 w-11 items-center justify-center transition-colors hover:bg-surface disabled:opacity-30"
+              className="press flex h-12 w-11 items-center justify-center hover:bg-surface disabled:opacity-30"
               aria-label="Decrease quantity"
             >
               <MinusIcon className="h-4 w-4" />
@@ -216,7 +216,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 )
               }
               disabled={displayQuantity >= maxQuantity}
-              className="flex h-12 w-11 items-center justify-center transition-colors hover:bg-surface disabled:opacity-30"
+              className="press flex h-12 w-11 items-center justify-center hover:bg-surface disabled:opacity-30"
               aria-label="Increase quantity"
             >
               <PlusIcon className="h-4 w-4" />
@@ -226,7 +226,7 @@ export function ProductDetail({ product }: { product: Product }) {
             type="button"
             onClick={handleAddToCart}
             disabled={!variant || variant.stock === 0}
-            className="label flex h-12 flex-1 items-center justify-center bg-ink px-6 text-[11px] text-canvas transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:bg-muted"
+            className="press label flex h-12 flex-1 items-center justify-center bg-ink px-6 text-[11px] text-canvas hover:opacity-90 disabled:cursor-not-allowed disabled:bg-muted"
           >
             {variant && variant.stock > 0 ? "Add to bag" : "Sold out"}
           </button>

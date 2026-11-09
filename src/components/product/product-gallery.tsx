@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/cn";
 
 type GalleryImage = {
@@ -50,14 +51,22 @@ export function ProductGallery({
       </div>
 
       <div className="relative aspect-[4/5] flex-1 overflow-hidden bg-surface">
-        <Image
-          src={active.src}
-          alt={active.alt || productName}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 58vw"
-          className="image-cover"
-        />
+        <motion.div
+          key={active.src}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={active.src}
+            alt={active.alt || productName}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 58vw"
+            className="image-cover"
+          />
+        </motion.div>
       </div>
     </div>
   );

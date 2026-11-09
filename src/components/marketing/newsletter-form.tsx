@@ -97,7 +97,7 @@ export function NewsletterForm({
           type="submit"
           disabled={status === "submitting"}
           className={cn(
-            "flex shrink-0 items-center justify-center gap-2 text-xs font-medium uppercase tracking-[0.12em] transition-opacity hover:opacity-60 disabled:opacity-40",
+            "press flex shrink-0 items-center justify-center gap-2 text-xs font-medium uppercase tracking-[0.12em] hover:opacity-60 disabled:opacity-40",
             boxed
               ? "h-12 bg-ink px-8 text-canvas hover:opacity-85"
               : "ml-3",

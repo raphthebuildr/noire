@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EB_Garamond, Inter } from "next/font/google";
+import { RootMotionConfig } from "@/components/motion/root-motion-config";
 import "./globals.css";
 
 const serif = EB_Garamond({
@@ -55,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} h-full`}>
       <body className="flex min-h-full flex-col bg-canvas text-ink">
-        {children}
+        <RootMotionConfig>{children}</RootMotionConfig>
       </body>
     </html>
   );
